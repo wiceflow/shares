@@ -1,0 +1,8 @@
+server:
+  port: 10208
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    context-path: /share/api/v1
+
+
