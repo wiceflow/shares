@@ -1,11 +1,14 @@
 package com.wiceflow.shares.impl;
 
 import com.wiceflow.shares.SharesApplicationTests;
+import com.wiceflow.shares.common.net.SharesDayInfoOriginalDTO;
 import com.wiceflow.shares.service.inter.ReptileSharesService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author BF
@@ -21,5 +24,8 @@ public class ReptileSharesServiceImplTest extends SharesApplicationTests {
     public void test() {
         String str = reptileSharesService.reptileSharesDayInfo();
         log.info(str);
+        List<SharesDayInfoOriginalDTO> list = reptileSharesService.analysisSharesDayInfo(str);
+        System.out.println(list);
+        System.out.println(list.size());
     }
 }

@@ -1,4 +1,4 @@
-package com.wiceflow.shares.common.dto;
+package com.wiceflow.shares.common.net;
 
 import lombok.Data;
 

@@ -1,5 +1,9 @@
 package com.wiceflow.shares.service.inter;
 
+import com.wiceflow.shares.common.net.SharesDayInfoOriginalDTO;
+
+import java.util.List;
+
 /**
  * @author BF
  * @date 2022/6/20
@@ -17,4 +21,13 @@ public interface ReptileSharesService {
      * @return 未解析的数据
      */
     String reptileSharesDayInfo();
+
+    /**
+     * 解析每日股票交易数据
+     * <p>
+     * @param reptileStringData [String] 未全量交易数据
+     *
+     * @return 解析的数据
+     */
+    List<SharesDayInfoOriginalDTO> analysisSharesDayInfo(String reptileStringData);
 }

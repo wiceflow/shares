@@ -1,7 +1,7 @@
 package com.wiceflow.shares.util;
 
 import com.wiceflow.shares.common.dto.SharesDayInfoDTO;
-import com.wiceflow.shares.common.dto.SharesDayInfoOriginalDTO;
+import com.wiceflow.shares.common.net.SharesDayInfoOriginalDTO;
 
 /**
  * @author BF
