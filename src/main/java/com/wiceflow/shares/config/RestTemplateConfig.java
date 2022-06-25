@@ -8,6 +8,8 @@ import javax.annotation.PostConstruct;
 /**
  * @author BF
  * @date 2022/6/20
+ *
+ * restTemplate 配置类
  */
 @Component
 public class RestTemplateConfig {
