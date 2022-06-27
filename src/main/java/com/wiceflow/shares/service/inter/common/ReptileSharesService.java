@@ -1,4 +1,4 @@
-package com.wiceflow.shares.service.inter;
+package com.wiceflow.shares.service.inter.common;
 
 import com.wiceflow.shares.common.net.SharesDayInfoOriginalDTO;
 
@@ -21,6 +21,13 @@ public interface ReptileSharesService {
      * @return 未解析的数据
      */
     String reptileSharesDayInfo();
+
+    /**
+     * 解析每日股票交易数据
+     *
+     * @return 解析的数据
+     */
+    List<SharesDayInfoOriginalDTO> analysisSharesDayInfo();
 
     /**
      * 解析每日股票交易数据

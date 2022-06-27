@@ -5,4 +5,23 @@ server:
   servlet:
     context-path: /share/api/v1
 
+spring:
+  jmx:
+    enabled: false
+  datasource:
+    druid:
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5432/shares?&ssl=false
+      username: postgres
+      password: wiceflow
+      db-type: com.alibaba.druid.pool.DruidDataSource
+      initialSize: 5
+      minIdle: 5
+      maxActive: 30
 
+mybatis-plus:
+  type-aliases-package: com.wiceflow.shares.common.entity
+  check-config-location: false
+  configuration:
+    #配置返回数据库(column下划线命名&&返回java实体是驼峰命名)，自动匹配无需as（没开启这个，SQL需要写as： select user_id as userId）
+    map-underscore-to-camel-case: true

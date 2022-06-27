@@ -1,24 +1,8 @@
-package com.wiceflow.shares.common.dto;
 
-import lombok.Data;
-
-import java.util.Date;
-
-/**
- * @author BF
- * @date 2022/6/20
- * <p>
- * 每日股票信息
- */
-@Data
-public class SharesDayInfoDTO {
-    private String id;
-    /** 日期 年月日 */
-    private Date sharesDate;
     /** 股票名称 f14 */
     private String sharesName;
     /** 股票代码 f12 **/
-    private String sharesNum;
+    private Integer sharesNum;
     /** 股票最新价 f2 **/
     private String sharesNewPrice;
     /** 股票涨跌幅 f3 **/
@@ -47,4 +31,3 @@ public class SharesDayInfoDTO {
     private String peRatio;
     /** 量比 f10 **/
     private String volumeRatio;
-}

@@ -1,10 +1,10 @@
-package com.wiceflow.shares.service.impl;
+package com.wiceflow.shares.service.impl.common;
 
 import com.alibaba.fastjson.JSON;
 import com.wiceflow.shares.common.net.SharesDayInfoOriginalDTO;
 import com.wiceflow.shares.common.net.SharesDayNetOriginDTO;
 import com.wiceflow.shares.config.RestTemplateConfig;
-import com.wiceflow.shares.service.inter.ReptileSharesService;
+import com.wiceflow.shares.service.inter.common.ReptileSharesService;
 import com.wiceflow.shares.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author BF
@@ -52,6 +50,26 @@ public class ReptileSharesServiceImpl implements ReptileSharesService {
             return response.getBody();
         }
         return null;
+    }
+
+    /**
+     * 解析每日股票交易数据
+     *
+     * @return 解析的数据
+     */
+    @Override
+    public List<SharesDayInfoOriginalDTO> analysisSharesDayInfo() {
+        String reptileStringData = reptileSharesDayInfo();
+        if (StringUtil.isEmpty(reptileStringData)) {
+            return null;
+        }
+        // 正则匹配大括号内容
+        reptileStringData = reptileStringData.replaceAll("^.+?\\((\\{.+})\\);$", "$1");
+        if (StringUtil.isEmpty(reptileStringData)) {
+            return null;
+        }
+        SharesDayNetOriginDTO sharesDayNetOriginDTO = JSON.parseObject(reptileStringData, SharesDayNetOriginDTO.class);
+        return sharesDayNetOriginDTO.getSharesDayInfoOriginalDTO();
     }
 
     /**

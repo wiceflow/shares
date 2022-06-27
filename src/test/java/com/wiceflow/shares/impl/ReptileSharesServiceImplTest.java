@@ -2,11 +2,10 @@ package com.wiceflow.shares.impl;
 
 import com.wiceflow.shares.SharesApplicationTests;
 import com.wiceflow.shares.common.net.SharesDayInfoOriginalDTO;
-import com.wiceflow.shares.service.inter.ReptileSharesService;
+import com.wiceflow.shares.service.inter.common.ReptileSharesService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

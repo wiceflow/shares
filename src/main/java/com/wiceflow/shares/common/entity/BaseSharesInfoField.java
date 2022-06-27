@@ -1,18 +1,19 @@
-package com.wiceflow.shares.common.dto;
+package com.wiceflow.shares.common.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author BF
- * @date 2022/6/20
- * <p>
- * 每日股票信息
+ * @date 2022/6/27
+ *
+ * 股票基本信息父类
  */
 @Data
-public class SharesDayInfoDTO {
-    private String id;
+public class BaseSharesInfoField<T> extends BaseField<T> implements Serializable {
+    private static final long serialVersionUID = 1L;
     /** 日期 年月日 */
     private Date sharesDate;
     /** 股票名称 f14 */
