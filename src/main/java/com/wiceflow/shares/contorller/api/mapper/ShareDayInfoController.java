@@ -1,6 +1,7 @@
 package com.wiceflow.shares.contorller.api.mapper;
 
 import com.wiceflow.shares.service.inter.mapper.SharesDayInfoService;
+import com.wiceflow.shares.service.inter.mapper.SharesTenDayInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ public class ShareDayInfoController {
 
     @GetMapping("getInfo")
     public void insertSharesDayInfo() {
-        sharesDayInfoService.insertSharesInfo();
+
+
     }
 }

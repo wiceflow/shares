@@ -1,14 +1,12 @@
 package com.wiceflow.shares.util;
 
-import com.wiceflow.shares.common.dto.SharesDayInfoDTO;
 import com.wiceflow.shares.common.entity.BaseSharesInfoField;
-import com.wiceflow.shares.common.entity.SharesDayInfo;
 import com.wiceflow.shares.common.net.SharesDayInfoOriginalDTO;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author BF
@@ -16,20 +14,18 @@ import java.util.stream.Collectors;
  * <p>
  * 数据转换 util
  */
+@Slf4j
 public class InfoChangeUtil {
 
-
     /**
-     * 每日数据转成入库文件
-     *
      * @param originalDTO [SharesDayInfoOriginalDTO] JSON 转换原数据
-     * @return [SharesDayInfo] 入库
-     * <p>
-     * 可以用反射重写这里  对边两边的注释，如果一样的话就写值
+     * @param type        [Class<T>] 对象类型
+     * @param <T>         泛型
+     * @return 可以用反射重写这里  对边两边的注释，如果一样的话就写值
      */
-    public static <T extends BaseSharesInfoField<T>> T originChange(SharesDayInfoOriginalDTO originalDTO, Class<T> aaa )  {
+    public static <T extends BaseSharesInfoField<T>> T originChange(SharesDayInfoOriginalDTO originalDTO, Class<T> type) {
         try {
-            T result = aaa.newInstance();
+            T result = type.newInstance();
             result.setSharesDate(new Date());
             result.setSharesName(originalDTO.getF14());
             result.setSharesNum(originalDTO.getF12());
@@ -48,8 +44,8 @@ public class InfoChangeUtil {
             result.setPeRatio(originalDTO.getF9());
             result.setVolumeRatio(originalDTO.getF10());
             return result;
-        }catch (Exception e){
-            System.out.println(originalDTO.toString());
+        } catch (Exception e) {
+            log.error("data change error,exception:{}", e.getMessage());
             return null;
         }
     }
@@ -57,16 +53,22 @@ public class InfoChangeUtil {
     /**
      * 每日数据转成入库文件
      *
-     * @param list [SharesDayInfoOriginalDTO] JSON 转换原数据
-     * @return List [SharesDayInfo] 入库
+     * @param list       [SharesDayInfoOriginalDTO] JSON 原数据
+     * @param resultList [List<T>]  转换后的接收队列
+     * @param result     [Class<T>] 对象 class 属性
+     * @param <T>        泛型
+     * @return List [SharesDayInfo] 转换后的数据
      */
     public static <T extends BaseSharesInfoField<T>> List<T> originChangeInfoList(List<SharesDayInfoOriginalDTO> list, List<T> resultList, Class<T> result) {
         if (CollectionUtil.isEmpty(list)) {
             return new ArrayList<>(1);
         }
 
-        for (int i = 0; i < list.size(); i++) {
-            resultList.add(originChange(list.get(i), result));
+        for (SharesDayInfoOriginalDTO sharesDayInfoOriginalDTO : list) {
+            T dataResult = originChange(sharesDayInfoOriginalDTO, result);
+            if (dataResult != null) {
+                resultList.add(dataResult);
+            }
         }
         return resultList;
     }

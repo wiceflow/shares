@@ -11,8 +11,4 @@ import com.wiceflow.shares.common.entity.SharesDayInfo;
  */
 public interface SharesDayInfoService extends IService<SharesDayInfo> {
 
-    /**
-     * 保存每日股票数据
-     */
-    void insertSharesInfo();
 }

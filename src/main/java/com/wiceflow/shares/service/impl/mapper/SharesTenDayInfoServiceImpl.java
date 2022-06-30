@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,19 +28,5 @@ import java.util.List;
 @Transactional
 public class SharesTenDayInfoServiceImpl extends ServiceImpl<SharesTenDayInfoMapper, SharesTenDayInfo> implements SharesTenDayInfoService {
 
-    @Autowired
-    private ReptileSharesService reptileSharesService;
 
-    /**
-     * 保存十日股票数据
-     */
-    @Override
-    public void insertSharesInfo() {
-        List<SharesDayInfoOriginalDTO> sharesDayInfoOriginalList = reptileSharesService.analysisSharesDayInfo();
-        if (CollectionUtil.isEmpty(sharesDayInfoOriginalList)) {
-            return;
-        }
-//        List<SharesTenDayInfo> resultList = InfoChangeUtil.originChangeInfoList(sharesDayInfoOriginalList);
-//        super.saveBatch(resultList);
-    }
 }

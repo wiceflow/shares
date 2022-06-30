@@ -25,19 +25,4 @@ import java.util.List;
 @Transactional
 public class SharesDayInfoServiceImpl extends ServiceImpl<SharesDayInfoMapper, SharesDayInfo> implements SharesDayInfoService {
 
-    @Autowired
-    private ReptileSharesService reptileSharesService;
-
-    /**
-     * 保存每日股票数据
-     */
-    @Override
-    public void insertSharesInfo() {
-        List<SharesDayInfoOriginalDTO> sharesDayInfoOriginalList = reptileSharesService.analysisSharesDayInfo();
-        if (CollectionUtil.isEmpty(sharesDayInfoOriginalList)) {
-            return;
-        }
-        List<SharesDayInfo> resultList = InfoChangeUtil.originChangeInfoList(sharesDayInfoOriginalList, new ArrayList<>(), SharesDayInfo.class);
-        super.saveBatch(resultList);
-    }
 }

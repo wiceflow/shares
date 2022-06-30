@@ -37,4 +37,11 @@ public interface ReptileSharesService {
      * @return 解析的数据
      */
     List<SharesDayInfoOriginalDTO> analysisSharesDayInfo(String reptileStringData);
+
+    /**
+     * 解析每日股票交易数据
+     *
+     * 并保存起来
+     */
+    void insetSharesInfoInDataBase();
 }
