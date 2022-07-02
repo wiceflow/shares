@@ -2,8 +2,7 @@ package com.wiceflow.shares.common.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-
-import java.util.Date;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author BF
@@ -13,6 +12,7 @@ import java.util.Date;
  */
 @Data
 @TableName("shares_day_info")
-public class SharesDayInfo extends BaseSharesInfoField<SharesDayInfo>{
+@EqualsAndHashCode(callSuper = true)
+public class SharesDayBaseInfo extends SharesBaseInfoField {
 
 }

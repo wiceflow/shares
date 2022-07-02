@@ -1,7 +1,7 @@
 package com.wiceflow.shares.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wiceflow.shares.common.entity.SharesDayInfo;
+import com.wiceflow.shares.common.entity.SharesDayBaseInfo;
 
 /**
  * @author BF
@@ -9,5 +9,5 @@ import com.wiceflow.shares.common.entity.SharesDayInfo;
  * <p>
  * 每日股票信息 Mapper
  */
-public interface SharesDayInfoMapper extends BaseMapper<SharesDayInfo> {
+public interface SharesDayInfoMapper extends BaseMapper<SharesDayBaseInfo> {
 }

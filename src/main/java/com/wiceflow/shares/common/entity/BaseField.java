@@ -16,7 +16,7 @@ import java.util.Date;
  * 基础字段
  */
 @Data
-public class BaseField<T> implements Serializable {
+public class BaseField implements Serializable {
 
     private static final long serialVersionUID = 2677396615301404901L;
 

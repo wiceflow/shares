@@ -1,6 +1,7 @@
 package com.wiceflow.shares.common.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,14 +13,11 @@ import java.util.Date;
  * 股票基本信息父类
  */
 @Data
-public class BaseSharesInfoField<T> extends BaseField<T> implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class SharesBaseInfoField extends SharesBaseField implements Serializable {
     private static final long serialVersionUID = 1L;
     /** 日期 年月日 */
     private Date sharesDate;
-    /** 股票名称 f14 */
-    private String sharesName;
-    /** 股票代码 f12 **/
-    private String sharesNum;
     /** 股票最新价 f2 **/
     private String sharesNewPrice;
     /** 股票涨跌幅 f3 **/

@@ -1,6 +1,6 @@
 package com.wiceflow.shares.util;
 
-import com.wiceflow.shares.common.entity.BaseSharesInfoField;
+import com.wiceflow.shares.common.entity.SharesBaseInfoField;
 import com.wiceflow.shares.common.net.SharesDayInfoOriginalDTO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,7 +23,7 @@ public class InfoChangeUtil {
      * @param <T>         泛型
      * @return 可以用反射重写这里  对边两边的注释，如果一样的话就写值
      */
-    public static <T extends BaseSharesInfoField<T>> T originChange(SharesDayInfoOriginalDTO originalDTO, Class<T> type) {
+    public static <T extends SharesBaseInfoField> T originChange(SharesDayInfoOriginalDTO originalDTO, Class<T> type) {
         try {
             T result = type.newInstance();
             result.setSharesDate(new Date());
@@ -59,7 +59,7 @@ public class InfoChangeUtil {
      * @param <T>        泛型
      * @return List [SharesDayInfo] 转换后的数据
      */
-    public static <T extends BaseSharesInfoField<T>> List<T> originChangeInfoList(List<SharesDayInfoOriginalDTO> list, List<T> resultList, Class<T> result) {
+    public static <T extends SharesBaseInfoField> List<T> originChangeInfoList(List<SharesDayInfoOriginalDTO> list, List<T> resultList, Class<T> result) {
         if (CollectionUtil.isEmpty(list)) {
             return new ArrayList<>(1);
         }

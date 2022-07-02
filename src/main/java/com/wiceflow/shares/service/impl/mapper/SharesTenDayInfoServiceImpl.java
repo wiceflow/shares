@@ -1,21 +1,17 @@
 package com.wiceflow.shares.service.impl.mapper;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.wiceflow.shares.common.entity.SharesDayInfo;
-import com.wiceflow.shares.common.entity.SharesTenDayInfo;
-import com.wiceflow.shares.common.net.SharesDayInfoOriginalDTO;
-import com.wiceflow.shares.mapper.SharesDayInfoMapper;
+import com.wiceflow.shares.common.entity.SharesBaseInfoField;
+import com.wiceflow.shares.common.entity.SharesTenDayBaseInfo;
 import com.wiceflow.shares.mapper.SharesTenDayInfoMapper;
-import com.wiceflow.shares.service.inter.common.ReptileSharesService;
-import com.wiceflow.shares.service.inter.mapper.SharesDayInfoService;
 import com.wiceflow.shares.service.inter.mapper.SharesTenDayInfoService;
 import com.wiceflow.shares.util.CollectionUtil;
-import com.wiceflow.shares.util.InfoChangeUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,9 +20,20 @@ import java.util.List;
  * <p>
  * 十日股票信息 Service
  */
+@Slf4j
 @Service
-@Transactional
-public class SharesTenDayInfoServiceImpl extends ServiceImpl<SharesTenDayInfoMapper, SharesTenDayInfo> implements SharesTenDayInfoService {
+@Transactional(rollbackFor = Exception.class)
+public class SharesTenDayInfoServiceImpl extends ServiceImpl<SharesTenDayInfoMapper, SharesTenDayBaseInfo> implements SharesTenDayInfoService {
 
 
+    /**
+     * 按日期删除旧的数据
+     *
+     * @param date [Date] 日期
+     * @return     [boolean] true 删除成功
+     */
+    @Override
+    public boolean deleteTenLastInfo(Date date) {
+        return remove(Wrappers.<SharesTenDayBaseInfo>lambdaQuery().eq(SharesBaseInfoField::getSharesDate, date));
+    }
 }

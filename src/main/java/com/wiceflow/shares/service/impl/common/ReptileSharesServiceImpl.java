@@ -1,12 +1,14 @@
 package com.wiceflow.shares.service.impl.common;
 
 import com.alibaba.fastjson.JSON;
-import com.wiceflow.shares.common.entity.SharesDayInfo;
-import com.wiceflow.shares.common.entity.SharesTenDayInfo;
+import com.wiceflow.shares.common.dto.SharesDateRoamDTO;
+import com.wiceflow.shares.common.entity.SharesDayBaseInfo;
+import com.wiceflow.shares.common.entity.SharesTenDayBaseInfo;
 import com.wiceflow.shares.common.net.SharesDayInfoOriginalDTO;
 import com.wiceflow.shares.common.net.SharesDayNetOriginDTO;
 import com.wiceflow.shares.config.RestTemplateConfig;
 import com.wiceflow.shares.service.inter.common.ReptileSharesService;
+import com.wiceflow.shares.service.inter.mapper.SharesDateService;
 import com.wiceflow.shares.service.inter.mapper.SharesDayInfoService;
 import com.wiceflow.shares.service.inter.mapper.SharesTenDayInfoService;
 import com.wiceflow.shares.util.InfoChangeUtil;
@@ -18,9 +20,11 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,6 +49,8 @@ public class ReptileSharesServiceImpl implements ReptileSharesService {
     private SharesDayInfoService sharesDayInfoService;
     @Autowired
     private SharesTenDayInfoService sharesTenDayInfoService;
+    @Autowired
+    private SharesDateService sharesDateService;
 
     /**
      * 爬取每日股票交易数据
@@ -107,10 +113,11 @@ public class ReptileSharesServiceImpl implements ReptileSharesService {
 
     /**
      * 解析每日股票交易数据
-     *
+     * <p>
      * 并保存起来
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void insetSharesInfoInDataBase() {
         String reptileStringData = reptileSharesDayInfo();
         // 正则匹配大括号内容
@@ -122,10 +129,21 @@ public class ReptileSharesServiceImpl implements ReptileSharesService {
         // 获取实际内容
         List<SharesDayInfoOriginalDTO> sharesDayInfoOriginalDTO = sharesDayNetOriginDTO.getSharesDayInfoOriginalDTO();
         // 每日数据
-        List<SharesDayInfo> resultList = InfoChangeUtil.originChangeInfoList(sharesDayInfoOriginalDTO, new ArrayList<>(), SharesDayInfo.class);
+        List<SharesDayBaseInfo> resultList = InfoChangeUtil.originChangeInfoList(sharesDayInfoOriginalDTO, new ArrayList<>(), SharesDayBaseInfo.class);
         // 十日数据
-        List<SharesTenDayInfo> tenList = InfoChangeUtil.originChangeInfoList(sharesDayInfoOriginalDTO, new ArrayList<>(), SharesTenDayInfo.class);
+        List<SharesTenDayBaseInfo> tenList = InfoChangeUtil.originChangeInfoList(sharesDayInfoOriginalDTO, new ArrayList<>(), SharesTenDayBaseInfo.class);
         sharesDayInfoService.saveBatch(resultList);
-        sharesTenDayInfoService.saveBatch(tenList);
+        SharesDateRoamDTO sharesDateRoam = sharesDateService.insertSharesDate();
+        if (sharesDateRoam.getInsertSuccess()) {
+            Date deleteDate = sharesDateRoam.getDeleteDate();
+            if (deleteDate != null){
+                log.info("删除十日数据表的旧数据中... ...");
+                sharesTenDayInfoService.deleteTenLastInfo(deleteDate);
+            }
+            log.info("十日数据表数据正在入库... ... 稍后即可分析 ~~~");
+            sharesTenDayInfoService.saveBatch(tenList);
+        }
     }
+
+
 }
