@@ -8,6 +8,7 @@ import com.wiceflow.shares.common.net.SharesDayInfoOriginalDTO;
 import com.wiceflow.shares.common.net.SharesDayNetOriginDTO;
 import com.wiceflow.shares.config.RestTemplateConfig;
 import com.wiceflow.shares.service.inter.common.ReptileSharesService;
+import com.wiceflow.shares.service.inter.mapper.SharesAnalysisService;
 import com.wiceflow.shares.service.inter.mapper.SharesDateService;
 import com.wiceflow.shares.service.inter.mapper.SharesDayInfoService;
 import com.wiceflow.shares.service.inter.mapper.SharesTenDayInfoService;
@@ -51,6 +52,8 @@ public class ReptileSharesServiceImpl implements ReptileSharesService {
     private SharesTenDayInfoService sharesTenDayInfoService;
     @Autowired
     private SharesDateService sharesDateService;
+    @Autowired
+    private SharesAnalysisService sharesAnalysisService;
 
     /**
      * 爬取每日股票交易数据
@@ -132,11 +135,14 @@ public class ReptileSharesServiceImpl implements ReptileSharesService {
         List<SharesDayBaseInfo> resultList = InfoChangeUtil.originChangeInfoList(sharesDayInfoOriginalDTO, new ArrayList<>(), SharesDayBaseInfo.class);
         // 十日数据
         List<SharesTenDayBaseInfo> tenList = InfoChangeUtil.originChangeInfoList(sharesDayInfoOriginalDTO, new ArrayList<>(), SharesTenDayBaseInfo.class);
-        sharesDayInfoService.saveBatch(resultList);
         SharesDateRoamDTO sharesDateRoam = sharesDateService.insertSharesDate();
         if (sharesDateRoam.getInsertSuccess()) {
+            // 更新每日股票数据
+            sharesDayInfoService.updateShares(resultList);
+            // 更新股票分析表
+            sharesAnalysisService.inspectBaseShares(resultList);
             Date deleteDate = sharesDateRoam.getDeleteDate();
-            if (deleteDate != null){
+            if (deleteDate != null) {
                 log.info("删除十日数据表的旧数据中... ...");
                 sharesTenDayInfoService.deleteTenLastInfo(deleteDate);
             }

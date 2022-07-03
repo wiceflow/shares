@@ -1,0 +1,19 @@
+create table shares_date
+(
+    id          varchar(255) not null
+        constraint shares_date_pk
+            primary key,
+    create_date timestamp(6) not null,
+    modify_date timestamp(6) not null,
+    shares_date date         not null,
+    soft_delete integer      not null
+);
+
+comment on table shares_date is '分析的股票表';
+
+comment on column shares_date.shares_date is '日期 年月日';
+
+comment on column shares_date.soft_delete is '软删除，不用硬删除是可以溯源，看有没哪一天数据漏了';
+
+alter table shares_date
+    owner to postgres;

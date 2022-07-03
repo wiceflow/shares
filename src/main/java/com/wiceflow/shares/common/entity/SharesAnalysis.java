@@ -1,5 +1,6 @@
 package com.wiceflow.shares.common.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -10,6 +11,7 @@ import lombok.EqualsAndHashCode;
  * 保存分析的股票类
  */
 @Data
+@TableName("shares_analysis")
 @EqualsAndHashCode(callSuper = true)
 public class SharesAnalysis extends SharesBaseField {
 

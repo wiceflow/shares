@@ -26,7 +26,7 @@ public class InfoChangeUtil {
     public static <T extends SharesBaseInfoField> T originChange(SharesDayInfoOriginalDTO originalDTO, Class<T> type) {
         try {
             T result = type.newInstance();
-            result.setSharesDate(new Date());
+            result.setSharesDate(DateUtil.getWeekDays());
             result.setSharesName(originalDTO.getF14());
             result.setSharesNum(originalDTO.getF12());
             result.setSharesNewPrice(originalDTO.getF2());

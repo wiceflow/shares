@@ -19,8 +19,9 @@ public class DateUtil {
     public final static String PATTERN_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
     public final static String PATTERN_YYYY_MM_DD_HH = "yyyy-MM-dd HH";
     public final static String PATTERN_YYYY_MM = "yyyy-MM";
-
     public final static String PATTERN_YYYY_MM_DD_HH_MM = "yyyy年MM月dd日 HH:mm";
+    public final static Integer SATURDAY = 7;
+    public final static Integer SUNDAY = 1;
 
 
     /**
@@ -312,5 +313,26 @@ public class DateUtil {
         calendar.setTime(date);
         int minute = calendar.get(Calendar.MINUTE);
         return minute == 0;
+    }
+
+    /**
+     * 获取日期，防止插入周末日期
+     *
+     * @return [Date]
+     */
+    public static Date getWeekDays() {
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+        // 如果不是周六和周天，则直接返回
+        if (day != SATURDAY && day != SUNDAY) {
+            return stringToDate(dateToString(new Date(), DateUtil.PATTERN_YYYY_MM_DD), DateUtil.PATTERN_YYYY_MM_DD);
+        } else if (day == SATURDAY) {
+            // 周六
+            calendar.add(Calendar.DATE, -1);
+        } else {
+            // 星期天
+            calendar.add(Calendar.DATE, -2);
+        }
+        return stringToDate(dateToString(calendar.getTime(), DateUtil.PATTERN_YYYY_MM_DD), DateUtil.PATTERN_YYYY_MM_DD);
     }
 }

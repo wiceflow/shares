@@ -1,12 +1,13 @@
--- auto-generated definition
 create table shares_day_info
 (
     id                        varchar(255) not null
         constraint shares_day_info_pk
             primary key,
+    create_date               timestamp(6) not null,
+    modify_date               timestamp(6) not null,
     shares_date               date         not null,
     shares_name               varchar(100) not null,
-    shares_num                integer      not null,
+    shares_num                varchar(20)  not null,
     shares_new_price          varchar(50)  not null,
     shares_fluctuation_range  varchar(50)  not null,
     shares_up_down_amount     varchar(50)  not null,
@@ -19,10 +20,8 @@ create table shares_day_info
     shares_received_yesterday varchar(100) not null,
     pe_ratio                  varchar(100) not null,
     turnover_rate             varchar(50)  not null,
-    "price_to_book_ratio"      varchar(100),
-    volume_ratio              varchar(100),
-    create_date               timestamp(6) not null,
-    modify_date               timestamp(6) not null
+    price_to_book_ratio       varchar(100),
+    volume_ratio              varchar(100)
 );
 
 comment on table shares_day_info is '每日股票数据表';
@@ -58,7 +57,7 @@ comment on column shares_day_info.pe_ratio is '市盈率（动态)';
 
 comment on column shares_day_info.turnover_rate is '换手率';
 
-comment on column shares_day_info."price_toBook_ratio" is '市净率';
+comment on column shares_day_info.price_to_book_ratio is '市净率';
 
 comment on column shares_day_info.volume_ratio is '量比';
 

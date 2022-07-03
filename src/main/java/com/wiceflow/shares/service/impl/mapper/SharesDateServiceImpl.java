@@ -7,6 +7,7 @@ import com.wiceflow.shares.common.entity.SharesDate;
 import com.wiceflow.shares.mapper.SharesDateMapper;
 import com.wiceflow.shares.service.inter.mapper.SharesDateService;
 import com.wiceflow.shares.util.CollectionUtil;
+import com.wiceflow.shares.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author BF
@@ -39,10 +41,10 @@ public class SharesDateServiceImpl extends ServiceImpl<SharesDateMapper, SharesD
     @Override
     public SharesDateRoamDTO insertSharesDate() {
         SharesDateRoamDTO sharesDateRoamDTO = new SharesDateRoamDTO();
-        // 默认市值成功
+        // 默认设置成功
         sharesDateRoamDTO.setInsertSuccess(true);
 
-        Date date = new Date();
+        Date date = DateUtil.getWeekDays();
         SharesDate sharesDate = new SharesDate();
         sharesDate.setSharesDate(date);
         sharesDate.setSoftDelete(0);
@@ -52,7 +54,13 @@ public class SharesDateServiceImpl extends ServiceImpl<SharesDateMapper, SharesD
             save(sharesDate);
             return sharesDateRoamDTO;
         }
-        boolean contains = list.contains(sharesDate);
+        boolean contains = false;
+        for (SharesDate shares : list) {
+            if (Objects.equals(shares.getSharesDate(), date)) {
+                contains = true;
+                break;
+            }
+        }
         // 先判断是否包含，若包含则返回
         if (contains) {
             sharesDateRoamDTO.setInsertSuccess(false);
@@ -71,5 +79,6 @@ public class SharesDateServiceImpl extends ServiceImpl<SharesDateMapper, SharesD
         save(sharesDate);
         return sharesDateRoamDTO;
     }
+
 
 }

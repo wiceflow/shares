@@ -27,6 +27,7 @@ public class ReptileSharesController {
         reptileSharesService.insetSharesInfoInDataBase();
 
         log.info("保存每日数据，十日数据，更新日期 成功");
+        log.info("--------------------------------------------------分割线---------------------------------------------");
         return AjaxResult.okResponse();
     }
 }
